@@ -10,3 +10,5 @@ class Student(object):
 
     def student_hard(self):
         print('Sir, yes sir.')
+
+print(Student.__dict__)
