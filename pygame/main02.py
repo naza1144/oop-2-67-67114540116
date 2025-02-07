@@ -9,7 +9,7 @@ pygame.display.set_caption("Pygame Mygame")
 #lock frame rate
 clock = pygame.time.Clock()
 #load image
-sheet = pygame.image.load("Tiny_Swords\spritesheet.png")
+sheet = pygame.image.load("pygame\Tiny_Swords\spritesheet.png")
 runing = True
 frame = 0
 x, y = 20,40
