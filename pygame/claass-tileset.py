@@ -20,10 +20,11 @@ class Layer(object):
         self.__dict__.update(data)
 
 
-import base64, io, pillow
+import base64, io
+from PIL import Image
 
 def strToImage(fname):
-    base64_data = data.split(',')[1]
+    b = base64
 
 
 class Tileset(object):
