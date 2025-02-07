@@ -1,4 +1,5 @@
 import json
+import pygame
 
 def load_tileset(fname):
     with open(fname, 'r') as f:
@@ -26,11 +27,66 @@ class Tileset(object):
         for layer in data['layers']:
             _layer = Layer(**layer)  # Add ** here
             self.layers.append(_layer)  # Also add this line to store the layer
-        self.spriteSheets = {}
+        self.spriteSheets = data['spriteSheets']
+        self.names = list(self.spriteSheets.keys())
+        self.name_index = 0
         data.pop('layers')
         data.pop('spriteSheets')
         self.__dict__.update(data)
 
-t = Tileset()
-for layer in t.layers:
-    print(layer.id, layer.name)
+    def show_spritesheet_name(self, font,screen):
+        name = self.names[self.name_index]
+        text = font.render(name, True, 30)
+        screen.blit(text, (20, 550))
+
+    def show_fps(self, font, screen, clock):
+        massge = f"FPS: {clock.get_fps():.2f} fps"
+        text = font.render(massge, True, 30)
+        screen.blit(text, (800-text.get_width(), 550))
+
+    def drwaw(self, screen):
+        name = self.names[self.name_index]
+        screen.blit(self.spriteSheets[name], (10, 20))
+
+    def up(self):
+        self.name_index = (self.name_index + 1) % len(self.names)
+
+    def down(self):
+        self.name_index = (self.name_index - 1) % len(self.names)
+
+
+
+from pygame.locals import * 
+from pygame.font import Font
+
+pygame.init()
+size = (800, 600)
+screen = pygame.display.set_mode(size)
+logo = pygame.image.load('Tiny_Swords\pngtree-cute-rat-isolated-png-image_13147967.png')
+pygame.display.set_icon(logo)
+pygame.display.set_caption('Rattatuie')
+font = Font('Monoton\Monoton-Regular.ttf', 20)
+runing = True
+Tileset = Tileset()
+clock = pygame.time.Clock()
+running = True
+
+ 
+while running:
+    for e in pygame.event.get():
+        if e.type == pygame.QUIT:
+            running = False
+            break
+        elif e.type == pygame.KEYDOWN:
+            if e.key in [K_LEFT, K_DOWN]:
+                Tileset.down()
+            elif e.key in [K_RIGHT, K_UP]:
+                Tileset.up()
+
+    screen.fill((160, 160, 160))
+    # In the main loop, change:
+    Tileset.show_spritesheet_name(font, screen)
+    Tileset.show_fps(font, screen, clock)
+
+    clock.tick(60)
+    pygame.display.flip()
