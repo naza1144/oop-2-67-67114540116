@@ -20,6 +20,12 @@ class Layer(object):
         self.__dict__.update(data)
 
 
+import base64, io, pillow
+
+def strToImage(fname):
+    base64_data = data.split(',')[1]
+
+
 class Tileset(object):
     def __init__(self, fname='Tiny_Swords/map.json'):
         data = load_tileset(fname)
@@ -27,7 +33,9 @@ class Tileset(object):
         for layer in data['layers']:
             _layer = Layer(**layer)  # Add ** here
             self.layers.append(_layer)  # Also add this line to store the layer
-        self.spriteSheets = data['spriteSheets']
+        self.spriteSheets = {}
+        for k, v in data['spriteSheets'].items():
+            self.spriteSheets[k] = strToImage(v)
         self.names = list(self.spriteSheets.keys())
         self.name_index = 0
         data.pop('layers')
