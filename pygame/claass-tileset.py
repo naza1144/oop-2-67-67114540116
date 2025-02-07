@@ -21,10 +21,13 @@ class Layer(object):
 
 
 import base64, io
-from PIL import Image
+from PIL import Image  # Change the import
 
-def strToImage(fname):
-    b = base64
+def strToImage(v):
+    b = base64.b64decode(v[22:])
+    bb = io.BytesIO(b)
+    img = Image.open(bb)  # Use Image.open instead of Image constructor
+    return pygame.image.fromstring(img.tobytes(), img.size, img.mode)
 
 
 class Tileset(object):
@@ -96,6 +99,7 @@ while running:
     # In the main loop, change:
     Tileset.show_spritesheet_name(font, screen)
     Tileset.show_fps(font, screen, clock)
+    Tileset.drwaw(screen)
 
     clock.tick(60)
     pygame.display.flip()
