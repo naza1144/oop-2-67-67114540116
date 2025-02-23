@@ -101,5 +101,5 @@ while running:
     Tileset.show_fps(font, screen, clock)
     Tileset.drwaw(screen)
 
-    clock.tick(60)
+    clock.tick(10000)
     pygame.display.flip()
